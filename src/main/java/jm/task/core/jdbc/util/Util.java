@@ -43,7 +43,6 @@ public class Util {
             }
         } catch (SQLException throwables) {
             System.err.println("Ошибка закрытия БД");
-
+        }
     }
-
 }
