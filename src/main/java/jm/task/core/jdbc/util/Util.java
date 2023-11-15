@@ -11,8 +11,7 @@ public class Util {
     private static final String PASSWORD = "root";
     private static Connection connection;
 
-    public static Connection connectDB() {
-
+    public static Connection getConnection() {
 
         try {
             if (connection == null || !connection.isClosed()) {
@@ -21,14 +20,14 @@ public class Util {
                 connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
                 if (connection != null) {
                     System.out.println("Соединение с БД установленно");
+                    connection.setAutoCommit(false);
                 }
             } else {
                 System.out.println("!!! Соединение уже было установленно ранее");
             }
 
         } catch (SQLException e) {
-            System.err.println("connection" + "\n");
-            e.printStackTrace();
+            System.err.println("Ошибка connection" + "\n");
         }
         return connection;
     }
@@ -46,4 +45,14 @@ public class Util {
         }
     }
 
+    public static void getRollback () {
+        if (connection != null) {
+            try {
+                System.out.println("rollback");
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } else { System.out.println("connection = null"); }
+    }
 }
